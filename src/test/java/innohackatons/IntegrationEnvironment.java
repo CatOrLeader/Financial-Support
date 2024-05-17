@@ -22,7 +22,6 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @Testcontainers
 @Log4j2
@@ -47,7 +46,8 @@ public abstract class IntegrationEnvironment {
         try (Connection connection = DriverManager.getConnection(c.getJdbcUrl(), c.getUsername(), c.getPassword())) {
             Database db = DatabaseFactory.getInstance()
                 .findCorrectDatabaseImplementation(new JdbcConnection(connection));
-            Liquibase liquibase = new Liquibase("db.master-changelog.xml", new DirectoryResourceAccessor(changelogPath), db);
+            Liquibase liquibase =
+                new Liquibase("db.master-changelog.xml", new DirectoryResourceAccessor(changelogPath), db);
             liquibase.update(new Contexts(), new LabelExpression());
         } catch (SQLException | LiquibaseException | FileNotFoundException e) {
             log.error(e);

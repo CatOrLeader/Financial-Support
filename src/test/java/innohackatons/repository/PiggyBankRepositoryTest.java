@@ -4,12 +4,12 @@ import innohackatons.IntegrationEnvironment;
 import innohackatons.entity.PiggyBank;
 import innohackatons.entity.User;
 import jakarta.transaction.Transactional;
+import java.math.BigDecimal;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import java.math.BigDecimal;
-import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
@@ -30,7 +30,6 @@ public class PiggyBankRepositoryTest extends IntegrationEnvironment {
         user = userRepository.save(user);
 
         String goal = "Test Goal";
-
 
         BigDecimal amount = new BigDecimal("100.00");
         PiggyBank piggyBank = new PiggyBank()

@@ -21,7 +21,7 @@ public class CategoryRepositoryTest extends IntegrationEnvironment {
     @Rollback
     public void assertThatAddCategoryWorksCorrectly() {
         Category category = new Category()
-        .setCategoryName("Test Category");
+            .setCategoryName("Test Category");
 
         category = categoryRepository.save(category);
 
