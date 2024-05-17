@@ -31,9 +31,9 @@ public class ReportServiceImpl implements ReportService {
             }
         }
 
-        Double totalAmount = 0.0;
-        Double totalCashback = 0.0;
-        Double potentialProfit = 0.0;
+        BigDecimal totalAmount = BigDecimal.ZERO;
+        BigDecimal totalCashback = BigDecimal.ZERO;
+        BigDecimal potentialProfit = BigDecimal.ZERO;
 
         //TODO get current cashback from each bank
         HashMap<Long, Double> bankCashback = new HashMap<>();
@@ -55,9 +55,9 @@ public class ReportServiceImpl implements ReportService {
         }
 
         for (TransactionDTO transaction : filteredTransactions) {
-            totalAmount += transaction.getAmount();
-            totalCashback += transaction.getAmount() * bankCashback.get(transaction.getBankId());
-            potentialProfit += transaction.getAmount() * optimalCashback;
+            totalAmount = totalAmount.add(transaction.getAmount());
+            totalCashback = totalCashback.add(transaction.getAmount().multiply(BigDecimal.valueOf(bankCashback.get(transaction.getBankId()))));
+            potentialProfit = potentialProfit.add(transaction.getAmount().multiply(BigDecimal.valueOf(optimalCashback)));
         }
 
         CategoryReportDTO categoryReportDTO = new CategoryReportDTO(
