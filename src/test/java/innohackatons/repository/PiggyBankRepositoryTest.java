@@ -38,10 +38,8 @@ public class PiggyBankRepositoryTest extends IntegrationEnvironment {
             .setGoal(goal);
         piggyBank = piggyBankRepository.save(piggyBank);
 
-        // Проверяем, что запись была успешно добавлена
         assertThat(piggyBank.getId()).isNotNull();
 
-        // Читаем запись из репозитория и проверяем ее
         Optional<PiggyBank> savedPiggyBankOptional = piggyBankRepository.findById(piggyBank.getId());
         assertThat(savedPiggyBankOptional).isPresent();
 
@@ -50,5 +48,46 @@ public class PiggyBankRepositoryTest extends IntegrationEnvironment {
         assertThat(savedPiggyBank.getAmount()).isEqualByComparingTo(amount);
         assertThat(savedPiggyBank.getGoal()).isEqualTo(goal);
     }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void assertThatUpdatePiggyBankWorksCorrectly() {
+        User user = userRepository.save(new User().setName("Test User"));
+        String goal = "Test Goal";
+        BigDecimal amount = new BigDecimal("100.00");
+        PiggyBank piggyBank = new PiggyBank()
+            .setUser(user)
+            .setAmount(amount)
+            .setGoal(goal);
+        piggyBank = piggyBankRepository.save(piggyBank);
+
+        BigDecimal updatedAmount = new BigDecimal("200.00");
+        piggyBank.setAmount(updatedAmount);
+        piggyBankRepository.save(piggyBank);
+
+        Optional<PiggyBank> updatedPiggyBankOptional = piggyBankRepository.findById(piggyBank.getId());
+        assertThat(updatedPiggyBankOptional).isPresent();
+        assertThat(updatedPiggyBankOptional.get().getAmount()).isEqualByComparingTo(updatedAmount);
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void assertThatDeletePiggyBankWorksCorrectly() {
+        User user = userRepository.save(new User().setName("Test User"));
+        String goal = "Test Goal";
+        BigDecimal amount = new BigDecimal("100.00");
+        PiggyBank piggyBank = new PiggyBank()
+            .setUser(user)
+            .setAmount(amount)
+            .setGoal(goal);
+        piggyBank = piggyBankRepository.save(piggyBank);
+
+        piggyBankRepository.delete(piggyBank);
+
+        assertThat(piggyBankRepository.findById(piggyBank.getId())).isEmpty();
+    }
+
 }
 
