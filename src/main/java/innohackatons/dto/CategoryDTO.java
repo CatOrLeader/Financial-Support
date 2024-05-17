@@ -1,10 +1,9 @@
 package innohackatons.dto;
 
 import lombok.Data;
-import java.util.UUID;
 
 @Data
 public class CategoryDTO {
-    private UUID categoryId;
+    private Long categoryId;
     private String categoryName;
 }

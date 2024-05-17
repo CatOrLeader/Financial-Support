@@ -1,11 +1,11 @@
 package innohackatons.dto;
 
 import lombok.Data;
-import java.util.UUID;
 
 @Data
 public class CashbackDTO {
-    private UUID bankId;
-    private UUID categoryId;
+    private Long userId;
+    private Long bankId;
+    private Long categoryId;
     private Double ratio;
 }

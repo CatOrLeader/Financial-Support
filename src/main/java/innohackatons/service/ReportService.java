@@ -10,5 +10,5 @@ import java.util.UUID;
 
 @Service
 public interface ReportService {
-    CategoryReportDTO generateCategoryReport(UUID categoryId, UUID userId, OffsetDateTime dateFrom, OffsetDateTime dateTo, List<TransactionDTO> transactions);
+    CategoryReportDTO generateCategoryReport(Long categoryId, Long userId, OffsetDateTime dateFrom, OffsetDateTime dateTo, List<TransactionDTO> transactions);
 }

@@ -15,8 +15,8 @@ import java.util.UUID;
 public class ReportServiceImpl implements ReportService {
     @Override
     public CategoryReportDTO generateCategoryReport(
-        UUID categoryId,
-        UUID userId,
+        Long categoryId,
+        Long userId,
         OffsetDateTime dateFrom,
         OffsetDateTime dateTo,
         List<TransactionDTO> transactions
@@ -36,15 +36,15 @@ public class ReportServiceImpl implements ReportService {
         BigDecimal potentialProfit = BigDecimal.ZERO;
 
         //TODO get current cashback from each bank
-        HashMap<UUID, Double> bankCashback = new HashMap<>();
-        bankCashback.put(UUID.fromString("Bank 1"), 0.1);
-        bankCashback.put(UUID.fromString("Bank 2"), 0.2);
-        bankCashback.put(UUID.fromString("Bank 3"), 0.15);
+        HashMap<Long, Double> bankCashback = new HashMap<>();
+        bankCashback.put(1L, 0.1);
+        bankCashback.put(2L, 0.2);
+        bankCashback.put(3L, 0.15);
 
         //TODO get best cashback ratio
-        UUID optimalBankId = bankCashback.keySet().iterator().next();
+        Long optimalBankId = bankCashback.keySet().iterator().next();
         Double optimalCashback = null;
-        for (UUID bankUUID: bankCashback.keySet()) {
+        for (Long bankUUID: bankCashback.keySet()) {
             if (optimalCashback == null) {
                 optimalBankId = bankUUID;
                 optimalCashback = bankCashback.get(bankUUID);
