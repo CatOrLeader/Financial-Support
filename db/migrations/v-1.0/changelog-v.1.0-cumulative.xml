@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <include file="init-scripts/2024-05-17--01-create-user-table.sql" relativeToChangelogFile="true"/>
+    <include file="init-scripts/2024-05-17--02-create-bank-table.sql" relativeToChangelogFile="true"/>
+    <include file="init-scripts/2024-05-17--03-create-category-table.sql" relativeToChangelogFile="true"/>
+    <include file="init-scripts/2024-05-17--04-create-deposit-table.sql" relativeToChangelogFile="true"/>
+    <include file="init-scripts/2024-05-17--05-create-budget-table.sql" relativeToChangelogFile="true"/>
+    <include file="init-scripts/2024-05-17--06-create-transaction-table.sql" relativeToChangelogFile="true"/>
+    <include file="init-scripts/2024-05-17--07-create-piggybank-table.sql" relativeToChangelogFile="true"/>
+    <include file="init-scripts/2024-05-17--08-create-cashback-table.sql" relativeToChangelogFile="true"/>
+</databaseChangeLog>
