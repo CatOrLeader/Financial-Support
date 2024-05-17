@@ -13,4 +13,5 @@
     <include file="init-scripts/2024-05-17--06-create-transaction-table.sql" relativeToChangelogFile="true"/>
     <include file="init-scripts/2024-05-17--07-create-piggybank-table.sql" relativeToChangelogFile="true"/>
     <include file="init-scripts/2024-05-17--08-create-cashback-table.sql" relativeToChangelogFile="true"/>
+    <include file="fill-scripts/2024-05-17--10-fill-bank-table.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

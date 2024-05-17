@@ -3,9 +3,9 @@ package innohackatons.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.util.UUID;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,9 +23,11 @@ import lombok.experimental.Accessors;
 @Table(name = "Category")
 public class Category {
     @Id
-    @GeneratedValue
-    private UUID categoryId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "category_id", nullable = false, updatable = false)
+    private Long categoryId;
 
-    @Column(nullable = false)
+
+    @Column(name = "category_name", nullable = false)
     private String categoryName;
 }

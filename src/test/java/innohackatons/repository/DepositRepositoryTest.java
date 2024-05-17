@@ -1,11 +1,10 @@
 package innohackatons.repository;
 
-
 import innohackatons.IntegrationEnvironment;
-import java.math.BigDecimal;
 import innohackatons.entity.Bank;
 import innohackatons.entity.Deposit;
 import innohackatons.entity.User;
+import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,8 +28,7 @@ public class DepositRepositoryTest extends IntegrationEnvironment {
     @Rollback
     public void assertThatAddDepositWorksCorrectly() {
         User user = userRepository.save(new User().setName("Test User"));
-        Bank bank = bankRepository.save(new Bank().setBankName("Test Bank"));
-
+        Bank bank = bankRepository.findById(1L).orElse(null);
         Deposit deposit = new Deposit()
             .setUser(user)
             .setBank(bank)

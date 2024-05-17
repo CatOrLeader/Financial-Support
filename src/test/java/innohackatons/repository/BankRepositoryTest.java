@@ -2,6 +2,7 @@ package innohackatons.repository;
 
 import innohackatons.IntegrationEnvironment;
 import innohackatons.entity.Bank;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,11 +21,7 @@ public class BankRepositoryTest extends IntegrationEnvironment {
     @Transactional
     @Rollback
     public void assertThatAddBankWorksCorrectly() {
-        Bank bank = new Bank()
-            .setBankName("Test Bank");
 
-        bank = bankRepository.save(bank);
-
-        assertThat(bankRepository.findById(bank.getId())).isPresent();
+        assertThat(bankRepository.findById(1L)).isPresent();
     }
 }

@@ -2,9 +2,9 @@
 
 --changeset vladislav77777:6
 CREATE TABLE Transaction (
-                             user_id UUID NOT NULL,
-                             bank_id UUID NOT NULL,
-                             category_id UUID NOT NULL,
+                             user_id BIGSERIAL NOT NULL,
+                             bank_id BIGSERIAL NOT NULL,
+                             category_id BIGSERIAL NOT NULL,
                              amount DECIMAL(19,2) NOT NULL,
                              date TIMESTAMP NOT NULL,
                              CONSTRAINT fk_transaction_user FOREIGN KEY (user_id) REFERENCES User_ (id),
