@@ -23,12 +23,12 @@ public class UserController implements UserAPI {
     }
 
     @Override
-    public ResponseEntity<GetAllUsersInfoResponse> getUser() {
+    public ResponseEntity<GetAllUsersInfoResponse> getAllUsers() {
         return null;
     }
 
     @Override
-    public ResponseEntity<Object> deleteUser(long name) {
+    public ResponseEntity<Object> deleteUser(long userId) {
         return null;
     }
 }

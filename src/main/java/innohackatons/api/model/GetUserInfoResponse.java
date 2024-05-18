@@ -6,6 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record GetUserInfoResponse(
-        @NotBlank String name
+    @NotBlank String name
 ) {
 }
