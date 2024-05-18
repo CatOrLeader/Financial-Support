@@ -3,15 +3,15 @@ package innohackatons.service.implementation;
 import innohackatons.dto.CategoryReportDTO;
 import innohackatons.dto.TransactionDTO;
 import innohackatons.service.ReportService;
-import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
+import org.springframework.stereotype.Service;
 
 @Service
+@SuppressWarnings("MagicNumber")
 public class ReportServiceImpl implements ReportService {
     @Override
     public CategoryReportDTO generateCategoryReport(
@@ -44,7 +44,7 @@ public class ReportServiceImpl implements ReportService {
         //TODO get best cashback ratio
         Long optimalBankId = bankCashback.keySet().iterator().next();
         Double optimalCashback = null;
-        for (Long bankUUID: bankCashback.keySet()) {
+        for (Long bankUUID : bankCashback.keySet()) {
             if (optimalCashback == null) {
                 optimalBankId = bankUUID;
                 optimalCashback = bankCashback.get(bankUUID);
@@ -56,8 +56,10 @@ public class ReportServiceImpl implements ReportService {
 
         for (TransactionDTO transaction : filteredTransactions) {
             totalAmount = totalAmount.add(transaction.getAmount());
-            totalCashback = totalCashback.add(transaction.getAmount().multiply(BigDecimal.valueOf(bankCashback.get(transaction.getBankId()))));
-            potentialProfit = potentialProfit.add(transaction.getAmount().multiply(BigDecimal.valueOf(optimalCashback)));
+            totalCashback = totalCashback.add(transaction.getAmount()
+                .multiply(BigDecimal.valueOf(bankCashback.get(transaction.getBankId()))));
+            potentialProfit =
+                potentialProfit.add(transaction.getAmount().multiply(BigDecimal.valueOf(optimalCashback)));
         }
 
         CategoryReportDTO categoryReportDTO = new CategoryReportDTO(

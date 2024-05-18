@@ -1,8 +1,8 @@
 package innohackatons.dto;
 
-import lombok.Data;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import lombok.Data;
 
 @Data
 public class TransactionDTO {
