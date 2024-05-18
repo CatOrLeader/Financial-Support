@@ -7,6 +7,6 @@ import java.time.OffsetDateTime;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record TransactionResponse(
-    @NotNull OffsetDateTime proceededDate
+        @NotNull OffsetDateTime proceededDate
 ) {
 }

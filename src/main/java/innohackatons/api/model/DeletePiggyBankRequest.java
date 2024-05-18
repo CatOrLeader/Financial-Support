@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record DeletePiggyBankRequest(
-    @NotBlank String goal,
-    @Min(0) long depositId
+        @NotBlank String goal,
+        @Min(0) long depositId
 ) {
 }

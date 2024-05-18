@@ -6,6 +6,6 @@ import jakarta.validation.constraints.Min;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record UserRegisterResponse(
-    @Min(0) long userId
+        @Min(0) long userId
 ) {
 }
