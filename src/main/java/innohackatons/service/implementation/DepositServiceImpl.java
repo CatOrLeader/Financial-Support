@@ -1,5 +1,6 @@
 package innohackatons.service.implementation;
 
+import innohackatons.api.exception.NotFoundEntityException;
 import innohackatons.api.model.GetAllDepositsInfoResponse;
 import innohackatons.api.model.GetDepositInfoResponse;
 import innohackatons.api.model.PostNewDepositResponse;
@@ -27,9 +28,9 @@ public class DepositServiceImpl implements DepositService {
     @Override
     public ResponseEntity<PostNewDepositResponse> createNewDeposit(long userId, long bankId) {
         User user = userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+            .orElseThrow(() -> new NotFoundEntityException("User not found"));
         Bank bank = bankRepository.findById(bankId)
-            .orElseThrow(() -> new RuntimeException("Bank not found"));
+            .orElseThrow(() -> new NotFoundEntityException("Bank not found"));
 
         Deposit deposit = new Deposit();
         deposit.setUser(user);
@@ -45,7 +46,7 @@ public class DepositServiceImpl implements DepositService {
     @Override
     public ResponseEntity<GetDepositInfoResponse> getDeposit(long depositId) {
         Deposit deposit = depositRepository.findById(depositId)
-            .orElseThrow(() -> new RuntimeException("Deposit not found"));
+            .orElseThrow(() -> new NotFoundEntityException("Deposit not found"));
 
         GetDepositInfoResponse response = new GetDepositInfoResponse(
             deposit.getBank().getId(),
@@ -57,7 +58,7 @@ public class DepositServiceImpl implements DepositService {
     @Override
     public ResponseEntity<GetAllDepositsInfoResponse> getAllDepositsByUserId(long userId) {
         User user = userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found("));
+            .orElseThrow(() -> new NotFoundEntityException("User not found("));
 
         List<Deposit> deposits = depositRepository.findByUser(user);
 

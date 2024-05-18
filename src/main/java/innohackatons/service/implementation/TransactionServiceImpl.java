@@ -1,5 +1,7 @@
 package innohackatons.service.implementation;
 
+import innohackatons.api.exception.ConflictException;
+import innohackatons.api.exception.NotFoundEntityException;
 import innohackatons.api.model.PostTransactionRequest;
 import innohackatons.api.model.TransactionResponse;
 import innohackatons.entity.Bank;
@@ -31,18 +33,18 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public ResponseEntity<TransactionResponse> processTransaction(PostTransactionRequest request) {
         User user = userRepository.findById(request.userId())
-            .orElseThrow(() -> new RuntimeException("User not found"));
+            .orElseThrow(() -> new NotFoundEntityException("User not found"));
         Bank bank = bankRepository.findById(request.bankId())
-            .orElseThrow(() -> new RuntimeException("Bank not found"));
+            .orElseThrow(() -> new NotFoundEntityException("Bank not found"));
         Category category = categoryRepository.findById(request.categoryId())
-            .orElseThrow(() -> new RuntimeException("Category not found"));
+            .orElseThrow(() -> new NotFoundEntityException("Category not found"));
         Deposit deposit = depositRepository.findByUserIdAndBankId(user.getId(), bank.getId())
-            .orElseThrow(() -> new RuntimeException("Deposit not found"));
+            .orElseThrow(() -> new NotFoundEntityException("Deposit not found"));
 
         BigDecimal newBalance = deposit.getAmount().add(BigDecimal.valueOf(request.amount()));
 
         if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
-            throw new RuntimeException("Insufficient funds");
+            throw new ConflictException("Insufficient funds");
         } else {
             deposit.setAmount(newBalance);
             depositRepository.save(deposit);

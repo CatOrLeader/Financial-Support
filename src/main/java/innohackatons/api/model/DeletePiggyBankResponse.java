@@ -6,6 +6,6 @@ import jakarta.validation.constraints.Min;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record DeletePiggyBankResponse(
-        @Min(0) double moneyTransferred
+    @Min(0) double moneyTransferred
 ) {
 }

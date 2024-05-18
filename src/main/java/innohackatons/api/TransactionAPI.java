@@ -21,27 +21,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface TransactionAPI {
     @Operation(summary = "Process the transaction from external service")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",
-                    description = "Transaction proceeded successfully",
-                    content = @Content(schema = @Schema(implementation = TransactionResponse.class))
-            ),
+        @ApiResponse(responseCode = "200",
+                     description = "Transaction proceeded successfully",
+                     content = @Content(schema = @Schema(implementation = TransactionResponse.class))
+        ),
 
-            @ApiResponse(responseCode = "400",
-                    description = "Request was malformed",
-                    content = @Content(schema = @Schema(implementation = APIErrorResponse.class))),
+        @ApiResponse(responseCode = "400",
+                     description = "Request was malformed",
+                     content = @Content(schema = @Schema(implementation = APIErrorResponse.class))),
 
-            @ApiResponse(responseCode = "403",
-                    description = "Incorrect access token provided",
-                    content = @Content()),
+        @ApiResponse(responseCode = "403",
+                     description = "Incorrect access token provided",
+                     content = @Content()),
 
-            @ApiResponse(responseCode = "409",
-                    description = "Not enough money on the deposit",
-                    content = @Content(schema = @Schema(implementation = APIErrorResponse.class)))
+        @ApiResponse(responseCode = "409",
+                     description = "Not enough money on the deposit",
+                     content = @Content(schema = @Schema(implementation = APIErrorResponse.class)))
     })
     @PostMapping(
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            headers = {"Authorization"}
+        produces = MediaType.APPLICATION_JSON_VALUE,
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        headers = {"Authorization"}
     )
     ResponseEntity<TransactionResponse> processTransaction(@RequestBody @Valid PostTransactionRequest transaction);
 }

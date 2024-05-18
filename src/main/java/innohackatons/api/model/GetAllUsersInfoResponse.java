@@ -8,7 +8,7 @@ import java.util.List;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record GetAllUsersInfoResponse(
-        @NotNull List<GetUserInfoResponse> userInfoResponseList,
-        @Min(0) int size
+    @NotNull List<GetUserInfoResponse> userInfoResponseList,
+    @Min(0) int size
 ) {
 }
