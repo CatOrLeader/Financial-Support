@@ -3,6 +3,7 @@ package innohackatons.api;
 import innohackatons.api.model.GetAllUsersInfoResponse;
 import innohackatons.api.model.GetUserInfoResponse;
 import innohackatons.api.model.UserRegisterResponse;
+import innohackatons.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -12,23 +13,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Slf4j
 public class UserController implements UserAPI {
+    private final UserService userService;
+
     @Override
     public ResponseEntity<UserRegisterResponse> registerUser(String name) {
-        return null;
+        return userService.registerUser(name);
     }
 
     @Override
     public ResponseEntity<GetUserInfoResponse> getUser(long userId) {
-        return null;
+        return userService.getUser(userId);
     }
 
     @Override
     public ResponseEntity<GetAllUsersInfoResponse> getAllUsers() {
-        return null;
+        return userService.getAllUsers();
     }
 
     @Override
     public ResponseEntity<Object> deleteUser(long userId) {
-        return null;
+        return userService.deleteUser(userId);
     }
 }
