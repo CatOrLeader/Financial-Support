@@ -7,6 +7,6 @@ import java.time.LocalDateTime;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record TransactionResponse(
-    @NotNull LocalDateTime proceededDate
+        @NotNull LocalDateTime proceededDate
 ) {
 }
