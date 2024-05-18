@@ -8,6 +8,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,7 +26,7 @@ public class ReportServiceImpl implements ReportService {
         for (TransactionDTO transaction : transactions) {
             if ((transaction.getDate().isAfter(dateFrom) && transaction.getDate().isBefore(dateTo))
                 || transaction.getDate().equals(dateFrom) || transaction.getDate().equals(dateTo)) {
-                if (transaction.getCategoryId() == categoryId && transaction.getUserId().equals(userId)) {
+                if (Objects.equals(transaction.getCategoryId(), categoryId) && transaction.getUserId().equals(userId)) {
                     filteredTransactions.add(transaction);
                 }
             }
@@ -62,7 +63,7 @@ public class ReportServiceImpl implements ReportService {
                 potentialProfit.add(transaction.getAmount().multiply(BigDecimal.valueOf(optimalCashback)));
         }
 
-        CategoryReportDTO categoryReportDTO = new CategoryReportDTO(
+        return new CategoryReportDTO(
             categoryId,
             dateFrom,
             dateTo,
@@ -71,7 +72,5 @@ public class ReportServiceImpl implements ReportService {
             totalCashback,
             potentialProfit
         );
-
-        return categoryReportDTO;
     }
 }
