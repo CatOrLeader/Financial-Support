@@ -41,7 +41,7 @@ public interface TransactionAPI {
     @PostMapping(
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE,
-        headers = {"Authorization"}
+        headers = {"Token"}
     )
     ResponseEntity<TransactionResponse> processTransaction(@RequestBody @Valid PostTransactionRequest transaction);
 }

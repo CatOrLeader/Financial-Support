@@ -45,7 +45,7 @@ public interface DepositAPI {
     })
     @PostMapping(
         produces = MediaType.APPLICATION_JSON_VALUE,
-        headers = {"Authorization"}
+        headers = {"Token"}
     )
     ResponseEntity<PostNewDepositResponse> createNewDeposit(
         @RequestParam @Min(0) long userId,
@@ -72,7 +72,7 @@ public interface DepositAPI {
     })
     @GetMapping(
         produces = MediaType.APPLICATION_JSON_VALUE,
-        headers = {"Authorization"}
+        headers = {"Token"}
     )
     ResponseEntity<GetDepositInfoResponse> getDeposit(
         @RequestParam @Min(0) long depositId
@@ -99,7 +99,7 @@ public interface DepositAPI {
     @GetMapping(
         path = "/all",
         produces = MediaType.APPLICATION_JSON_VALUE,
-        headers = {"Authorization"}
+        headers = {"Token"}
     )
     ResponseEntity<GetAllDepositsInfoResponse> getAllDepositsByUserId(
         @RequestParam @Min(0) long userId

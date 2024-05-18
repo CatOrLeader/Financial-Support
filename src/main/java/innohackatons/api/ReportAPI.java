@@ -43,7 +43,7 @@ public interface ReportAPI {
         path = "/category",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE,
-        headers = {"Authorization"}
+        headers = {"Token"}
     )
     ResponseEntity<GetCategoryReportResponse> getCategoryReport(
         @RequestParam @Min(0) long userId, @RequestBody @Valid GetCategoryReportRequest request
