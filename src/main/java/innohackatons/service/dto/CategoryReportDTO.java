@@ -1,7 +1,7 @@
-package innohackatons.dto;
+package innohackatons.service.dto;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CategoryReportDTO {
     private Long categoryId;
-    private OffsetDateTime dateFrom;
-    private OffsetDateTime dateTo;
+    private LocalDateTime dateFrom;
+    private LocalDateTime dateTo;
     private Long recommendedBankId;
     private BigDecimal amountSpent;
     private BigDecimal actualProfit;

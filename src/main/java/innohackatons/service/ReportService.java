@@ -1,8 +1,8 @@
 package innohackatons.service;
 
-import innohackatons.dto.CategoryReportDTO;
-import innohackatons.dto.TransactionDTO;
-import java.time.OffsetDateTime;
+import innohackatons.entity.Transaction;
+import innohackatons.service.dto.CategoryReportDTO;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +11,8 @@ public interface ReportService {
     CategoryReportDTO generateCategoryReport(
         Long categoryId,
         Long userId,
-        OffsetDateTime dateFrom,
-        OffsetDateTime dateTo,
-        List<TransactionDTO> transactions
+        LocalDateTime dateFrom,
+        LocalDateTime dateTo,
+        List<Transaction> transactions
     );
 }

@@ -1,10 +1,10 @@
 package innohackatons.service.implementation;
 
-import innohackatons.dto.CategoryReportDTO;
-import innohackatons.dto.TransactionDTO;
+import innohackatons.entity.Transaction;
 import innohackatons.service.ReportService;
+import innohackatons.service.dto.CategoryReportDTO;
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,15 +18,16 @@ public class ReportServiceImpl implements ReportService {
     public CategoryReportDTO generateCategoryReport(
         Long categoryId,
         Long userId,
-        OffsetDateTime dateFrom,
-        OffsetDateTime dateTo,
-        List<TransactionDTO> transactions
+        LocalDateTime dateFrom,
+        LocalDateTime dateTo,
+        List<Transaction> transactions
     ) {
-        List<TransactionDTO> filteredTransactions = new ArrayList<>();
-        for (TransactionDTO transaction : transactions) {
+        List<Transaction> filteredTransactions = new ArrayList<>();
+        for (Transaction transaction : transactions) {
             if ((transaction.getDate().isAfter(dateFrom) && transaction.getDate().isBefore(dateTo))
                 || transaction.getDate().equals(dateFrom) || transaction.getDate().equals(dateTo)) {
-                if (Objects.equals(transaction.getCategoryId(), categoryId) && transaction.getUserId().equals(userId)) {
+                if (Objects.equals(transaction.getCategory().getCategoryId(), categoryId)
+                    && transaction.getUser().getId().equals(userId)) {
                     filteredTransactions.add(transaction);
                 }
             }
@@ -55,10 +56,10 @@ public class ReportServiceImpl implements ReportService {
             }
         }
 
-        for (TransactionDTO transaction : filteredTransactions) {
+        for (Transaction transaction : filteredTransactions) {
             totalAmount = totalAmount.add(transaction.getAmount());
             totalCashback = totalCashback.add(transaction.getAmount()
-                .multiply(BigDecimal.valueOf(bankCashback.get(transaction.getBankId()))));
+                .multiply(BigDecimal.valueOf(bankCashback.get(transaction.getBank().getId()))));
             potentialProfit =
                 potentialProfit.add(transaction.getAmount().multiply(BigDecimal.valueOf(optimalCashback)));
         }
