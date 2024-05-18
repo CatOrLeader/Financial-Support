@@ -8,7 +8,7 @@ import java.util.List;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record GetAllPiggyBanksByUserResponse(
-        @NotNull List<GetPiggyBankInfoResponse> bankInfoResponseList,
-        @Min(0) int size
+    @NotNull List<GetPiggyBankInfoResponse> bankInfoResponseList,
+    @Min(0) int size
 ) {
 }

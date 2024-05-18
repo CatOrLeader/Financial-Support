@@ -325,7 +325,12 @@
                         </goals>
                         <configuration>
                             <excludes>
-                                <!-- TO FILL LATER -->
+                                <exclude>innohackatons/api/*API.class</exclude>
+                                <exclude>innohackatons/api/model/*.class</exclude>
+                                <exclude>innohackatons/configuration/*.class</exclude>
+                                <exclude>innohackatons/entity/*.class</exclude>
+                                <exclude>innohackatons/service/*.class</exclude>
+                                <exclude>innohackatons/service/dto/*.class</exclude>
                             </excludes>
                         </configuration>
                     </execution>
