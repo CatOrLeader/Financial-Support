@@ -43,7 +43,7 @@ public interface UserAPI {
     @GetMapping(
         path = "/register",
         produces = MediaType.APPLICATION_JSON_VALUE,
-        headers = {"Authorization"}
+        headers = {"Token"}
     )
     ResponseEntity<UserRegisterResponse> registerUser(@RequestParam @NotBlank String name);
 
@@ -67,7 +67,7 @@ public interface UserAPI {
     })
     @GetMapping(
         produces = MediaType.APPLICATION_JSON_VALUE,
-        headers = {"Authorization"}
+        headers = {"Token"}
     )
     ResponseEntity<GetUserInfoResponse> getUser(@RequestParam @Min(0) long userId);
 
@@ -88,7 +88,7 @@ public interface UserAPI {
     @GetMapping(
         path = "/all",
         produces = MediaType.APPLICATION_JSON_VALUE,
-        headers = {"Authorization"}
+        headers = {"Token"}
     )
     ResponseEntity<GetAllUsersInfoResponse> getAllUsers();
 
@@ -111,7 +111,7 @@ public interface UserAPI {
     })
     @DeleteMapping(
         produces = MediaType.APPLICATION_JSON_VALUE,
-        headers = {"Authorization"}
+        headers = {"Token"}
     )
     ResponseEntity<Object> deleteUser(@RequestParam @Min(0) long userId);
 }

@@ -2,11 +2,13 @@ package innohackatons.api;
 
 import innohackatons.api.model.DeletePiggyBankRequest;
 import innohackatons.api.model.PostInternalPiggyBankRequest;
+import innohackatons.service.PiggyBankService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -16,11 +18,14 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 @WebFluxTest(controllers = PiggyBankController.class)
 @DirtiesContext
 public class PiggyBankControllerTest {
-    private static final String COMMON_AUTHORIZATION_HEADER_NAME = "Authorization";
+    private static final String COMMON_AUTHORIZATION_HEADER_NAME = "Token";
     private static final String COMMON_HEADER_VALUE = "Value";
 
     @Autowired
     private WebTestClient webClient;
+
+    @MockBean
+    private PiggyBankService piggyBankService;
 
     @Test
     void testMapping_whenAddMoneyToPiggyBank() {

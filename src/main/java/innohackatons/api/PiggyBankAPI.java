@@ -7,6 +7,7 @@ import innohackatons.api.model.GetAllPiggyBanksByUserResponse;
 import innohackatons.api.model.GetPiggyBankInfoResponse;
 import innohackatons.api.model.InternalPiggyBankResponse;
 import innohackatons.api.model.PostInternalPiggyBankRequest;
+import innohackatons.api.model.PostNewPiggyBankResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -49,7 +50,7 @@ public interface PiggyBankAPI {
     @GetMapping(
         path = "/all",
         produces = MediaType.APPLICATION_JSON_VALUE,
-        headers = {"Authorization"})
+        headers = {"Token"})
     ResponseEntity<GetAllPiggyBanksByUserResponse> getAllPiggyBanksByUser(@RequestParam @Min(0) long userId);
 
     @Operation(summary = "Get piggy bank by certain user")
@@ -72,7 +73,7 @@ public interface PiggyBankAPI {
     })
     @GetMapping(
         produces = MediaType.APPLICATION_JSON_VALUE,
-        headers = {"Authorization"}
+        headers = {"Token"}
     )
     ResponseEntity<GetPiggyBankInfoResponse> getPiggyBank(
         @RequestParam @Min(0) long userId,
@@ -101,7 +102,7 @@ public interface PiggyBankAPI {
         path = "/internal/add",
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE,
-        headers = {"Authorization"})
+        headers = {"Token"})
     ResponseEntity<InternalPiggyBankResponse> internalAddTransactionProcess(
         @RequestParam long userId, @RequestBody @Valid PostInternalPiggyBankRequest request
     );
@@ -132,9 +133,39 @@ public interface PiggyBankAPI {
         path = "/internal/retrieve",
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE,
-        headers = {"Authorization"})
+        headers = {"Token"})
     ResponseEntity<InternalPiggyBankResponse> internalRetrieveTransactionProcess(
         @RequestParam @Min(0) long userId, @RequestBody @Valid PostInternalPiggyBankRequest request
+    );
+
+    @Operation(summary = "Create piggy bank")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200",
+                     description = "Piggy Bank created successfully",
+                     content = @Content(schema = @Schema(implementation = PostNewPiggyBankResponse.class))),
+
+        @ApiResponse(responseCode = "400",
+                     description = "Request was malformed",
+                     content = @Content(schema = @Schema(implementation = APIErrorResponse.class))),
+
+        @ApiResponse(responseCode = "403",
+                     description = "Incorrect access token provided",
+                     content = @Content()),
+
+        @ApiResponse(responseCode = "404",
+                     description = "Entity with such id is not found",
+                     content = @Content(schema = @Schema(implementation = APIErrorResponse.class))),
+
+        @ApiResponse(responseCode = "400",
+                     description = "Entity with such id is already found",
+                     content = @Content(schema = @Schema(implementation = APIErrorResponse.class)))
+    })
+    @PostMapping(
+        produces = MediaType.APPLICATION_JSON_VALUE,
+        headers = {"Token"}
+    )
+    ResponseEntity<PostNewPiggyBankResponse> createPiggyBank(
+        @RequestParam @Min(0) long userId, @RequestParam @NotBlank String goal
     );
 
     @Operation(summary = "Delete piggy bank and transfer all money to the certain deposit")
@@ -158,9 +189,9 @@ public interface PiggyBankAPI {
     @DeleteMapping(
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE,
-        headers = {"Authorization"}
+        headers = {"Token"}
     )
-    ResponseEntity<DeletePiggyBankRequest> deletePiggyBank(
+    ResponseEntity<DeletePiggyBankResponse> deletePiggyBank(
         @RequestParam @Min(0) long userId, @RequestBody @Valid DeletePiggyBankRequest request
     );
 }
