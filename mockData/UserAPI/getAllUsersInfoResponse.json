@@ -1,0 +1,11 @@
+{
+    "user_info_response_list": [
+        {
+            "name": "JohnDoe"
+        },
+        {
+            "name": "JaneSmith"
+        }
+    ],
+    "size": 2
+}

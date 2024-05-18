@@ -1,0 +1,9 @@
+{
+    "category_name": "Groceries",
+    "date_from": "2023-01-01T00:00:00",
+    "date_to": "2023-12-31T23:59:59",
+    "recommended_bank_id": 456,
+    "amount_spent": 1500.75,
+    "actual_profit": 50.25,
+    "potential_profit": 75.50
+}

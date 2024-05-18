@@ -1,0 +1,13 @@
+{
+    "deposit_info_responses": [
+        {
+            "bank_id": 1,
+            "amount": 1500.75
+        },
+        {
+            "bank_id": 2,
+            "amount": 2000.50
+        }
+    ],
+    "size": 2
+}
