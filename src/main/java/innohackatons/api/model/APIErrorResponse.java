@@ -17,10 +17,10 @@ public record APIErrorResponse(
 ) {
     private static final int MAX_STACK_DEPTH = 7;
 
-    public APIErrorResponse(@NotNull HttpStatus status, @NotNull Exception exception) {
+    public APIErrorResponse(@NotNull int httpStatus, @NotNull Exception exception) {
         this(
-            status.getReasonPhrase(),
-            String.valueOf(status.value()),
+            HttpStatus.valueOf(httpStatus).getReasonPhrase(),
+            String.valueOf(httpStatus),
             exception.getClass().getName(),
             exception.getMessage(),
             Arrays.stream(exception.getStackTrace()).map(StackTraceElement::toString).toList().subList(
