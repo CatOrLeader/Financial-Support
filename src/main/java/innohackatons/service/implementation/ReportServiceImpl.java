@@ -1,77 +1,84 @@
 package innohackatons.service.implementation;
 
+import innohackatons.api.model.GetCategoryReportRequest;
+import innohackatons.api.model.GetCategoryReportResponse;
+import innohackatons.entity.Bank;
+import innohackatons.entity.Cashback;
+import innohackatons.entity.Deposit;
 import innohackatons.entity.Transaction;
+import innohackatons.repository.CashbackRepository;
+import innohackatons.repository.DepositRepository;
+import innohackatons.repository.TransactionRepository;
 import innohackatons.service.ReportService;
 import innohackatons.service.dto.CategoryReportDTO;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 @SuppressWarnings("MagicNumber")
 public class ReportServiceImpl implements ReportService {
+    private final TransactionRepository transactionRepository;
+    private final CashbackRepository cashbackRepository;
+    private final DepositRepository depositRepository;
+
     @Override
-    public CategoryReportDTO generateCategoryReport(
-        Long categoryId,
-        Long userId,
-        LocalDateTime dateFrom,
-        LocalDateTime dateTo,
-        List<Transaction> transactions
-    ) {
-        List<Transaction> filteredTransactions = new ArrayList<>();
-        for (Transaction transaction : transactions) {
-            if ((transaction.getDate().isAfter(dateFrom) && transaction.getDate().isBefore(dateTo))
-                || transaction.getDate().equals(dateFrom) || transaction.getDate().equals(dateTo)) {
-                if (Objects.equals(transaction.getCategory().getCategoryId(), categoryId)
-                    && transaction.getUser().getId().equals(userId)) {
-                    filteredTransactions.add(transaction);
-                }
-            }
+    public ResponseEntity<GetCategoryReportResponse> generateCategoryReport(
+        long userId, GetCategoryReportRequest request) {
+        List<Transaction> filteredTransactions = transactionRepository
+            .findTransactionsByUserIdAndCategoryIdAndDateRange(
+            userId, request.categoryId(), request.dateFrom(), request.dateTo());
+
+        HashSet<Deposit> deposits = new HashSet<>();
+
+        for (Transaction transaction : filteredTransactions) {
+            deposits.addAll(depositRepository.findByBankAndUser(transaction.getBank(), transaction.getUser()));
+        }
+
+        HashSet<Cashback> cashbacks = new HashSet<>();
+
+        for (Deposit deposit : deposits) {
+            cashbacks.addAll(cashbackRepository.findByBank(deposit.getBank()));
         }
 
         BigDecimal totalAmount = BigDecimal.ZERO;
         BigDecimal totalCashback = BigDecimal.ZERO;
         BigDecimal potentialProfit = BigDecimal.ZERO;
 
-        //TODO get current cashback from each bank
-        HashMap<Long, Double> bankCashback = new HashMap<>();
-        bankCashback.put(1L, 0.1);
-        bankCashback.put(2L, 0.2);
-        bankCashback.put(3L, 0.15);
-
-        //TODO get best cashback ratio
-        Long optimalBankId = bankCashback.keySet().iterator().next();
-        Double optimalCashback = null;
-        for (Long bankUUID : bankCashback.keySet()) {
-            if (optimalCashback == null) {
-                optimalBankId = bankUUID;
-                optimalCashback = bankCashback.get(bankUUID);
-            } else if (optimalCashback < bankCashback.get(bankUUID)) {
-                optimalBankId = bankUUID;
-                optimalCashback = bankCashback.get(bankUUID);
+        Bank optimalBank = cashbacks.iterator().next().getBank();
+        BigDecimal optimalCashback = cashbacks.iterator().next().getRatio();
+        for (Cashback cashback : cashbacks) {
+            if (optimalCashback.compareTo(cashback.getRatio()) < 0) {
+                optimalBank = cashback.getBank();
+                optimalCashback = cashback.getRatio();
             }
         }
 
         for (Transaction transaction : filteredTransactions) {
             totalAmount = totalAmount.add(transaction.getAmount());
             totalCashback = totalCashback.add(transaction.getAmount()
-                .multiply(BigDecimal.valueOf(bankCashback.get(transaction.getBank().getId()))));
+                .multiply(cashbackRepository
+                    .findByBankAndCategory(transaction.getBank(), transaction.getCategory()).getRatio()));
             potentialProfit =
-                potentialProfit.add(transaction.getAmount().multiply(BigDecimal.valueOf(optimalCashback)));
+                potentialProfit.add(transaction.getAmount().multiply(optimalCashback));
         }
 
-        return new CategoryReportDTO(
-            categoryId,
-            dateFrom,
-            dateTo,
-            optimalBankId,
+        CategoryReportDTO categoryReportDTO = new CategoryReportDTO(
+            request.categoryId(),
+            request.dateFrom(),
+            request.dateTo(),
+            optimalBank.getId(),
             totalAmount,
             totalCashback,
             potentialProfit
+        );
+
+        return ResponseEntity.ok(
+            new GetCategoryReportResponse(categoryReportDTO)
         );
     }
 }
