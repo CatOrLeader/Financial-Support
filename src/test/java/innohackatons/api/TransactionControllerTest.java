@@ -1,12 +1,14 @@
 package innohackatons.api;
 
 import innohackatons.api.model.PostTransactionRequest;
+import innohackatons.service.TransactionService;
 import java.time.LocalDateTime;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -20,6 +22,9 @@ public class TransactionControllerTest {
 
     @Autowired
     private WebTestClient webClient;
+
+    @MockBean
+    private TransactionService service;
 
     @Test
     void testMapping() {

@@ -1,10 +1,12 @@
 package innohackatons.api;
 
+import innohackatons.service.DepositService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -18,6 +20,9 @@ public class DepositControllerTest {
 
     @Autowired
     private WebTestClient webClient;
+
+    @MockBean
+    private DepositService depositService;
 
     @Test
     void testMapping_whenGetDepositById() {
