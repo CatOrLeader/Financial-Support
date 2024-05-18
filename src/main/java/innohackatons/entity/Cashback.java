@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode(of = {"bank", "categoryId"})
+@EqualsAndHashCode(of = {"bank", "category"})
 @NoArgsConstructor
 @Accessors(chain = true)
 @Entity
