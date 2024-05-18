@@ -13,5 +13,6 @@ public interface DepositRepository extends JpaRepository<Deposit, Long> {
     Optional<Deposit> findByUserIdAndBankId(Long userId, Long bankId);
 
     List<Deposit> findByUser(User user);
+
     List<Deposit> findByBankAndUser(Bank bank, User user);
 }
