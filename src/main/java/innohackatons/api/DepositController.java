@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DepositController implements DepositAPI {
     @Override
     public ResponseEntity<PostNewDepositResponse> createNewDeposit(long userId, long bankId) {
-        return null;
+        return ResponseEntity.ok().build();
     }
 
     @Override
