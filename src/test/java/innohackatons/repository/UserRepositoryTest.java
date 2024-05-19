@@ -3,6 +3,7 @@ package innohackatons.repository;
 import innohackatons.IntegrationEnvironment;
 import innohackatons.entity.User;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +19,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class UserRepositoryTest extends IntegrationEnvironment {
     @Autowired
     private UserRepository userRepository;
+
+
+    @BeforeEach
+    public void setUp() {
+        userRepository.deleteAll();
+    }
 
     @Test
     @Transactional

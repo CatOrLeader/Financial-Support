@@ -28,7 +28,7 @@ public class CategoryRepositoryTest extends IntegrationEnvironment {
 
         category = categoryRepository.save(category);
 
-        assertThat(categoryRepository.findById(category.getCategoryId())).isPresent();
+        assertThat(categoryRepository.findById(category.getId())).isPresent();
     }
 
     @Test
@@ -43,7 +43,7 @@ public class CategoryRepositoryTest extends IntegrationEnvironment {
         category.setCategoryName(updatedName);
         categoryRepository.save(category);
 
-        Optional<Category> updatedCategoryOptional = categoryRepository.findById(category.getCategoryId());
+        Optional<Category> updatedCategoryOptional = categoryRepository.findById(category.getId());
         assertThat(updatedCategoryOptional).isPresent();
         assertThat(updatedCategoryOptional.get().getCategoryName()).isEqualTo(updatedName);
     }
@@ -58,7 +58,7 @@ public class CategoryRepositoryTest extends IntegrationEnvironment {
 
         categoryRepository.delete(category);
 
-        assertThat(categoryRepository.findById(category.getCategoryId())).isEmpty();
+        assertThat(categoryRepository.findById(category.getId())).isEmpty();
     }
 
     @Test

@@ -4,7 +4,13 @@ import innohackatons.IntegrationEnvironment;
 import innohackatons.api.exception.ConflictException;
 import innohackatons.api.exception.NotFoundEntityException;
 import innohackatons.api.model.GetUserInfoResponse;
+import innohackatons.repository.DepositRepository;
+import innohackatons.repository.UserRepository;
+import innohackatons.repository.UserRepositoryTest;
 import innohackatons.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -22,11 +28,18 @@ public class UserServiceImplTest extends IntegrationEnvironment {
     private static long ID;
 
     @Autowired
-    private UserService userService;
+    private  UserService userService;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private DepositRepository depositRepository;
 
     @Test
     @Order(1)
     void getUser_whenNothingRegistered_thenZeroFound() {
+        depositRepository.deleteAll();
+        userRepository.deleteAll();
+
         assertThat(userService.getAllUsers().getBody().userInfoResponseList()).isEmpty();
         assertThatExceptionOfType(NotFoundEntityException.class)
             .isThrownBy(() -> userService.getUser(1));
