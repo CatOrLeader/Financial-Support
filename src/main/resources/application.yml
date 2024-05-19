@@ -6,6 +6,7 @@ app:
       partitions: 2
       replicas: 2
   use-queue: false
+  token: "${SECRET_TOKEN}"
 
 spring:
   application:

@@ -1,0 +1,13 @@
+{
+    "bank_info_response_list": [
+        {
+            "goal": "Vacation",
+            "amount": 1200.50
+        },
+        {
+            "goal": "Emergency Fund",
+            "amount": 3000.00
+        }
+    ],
+    "size": 2
+}

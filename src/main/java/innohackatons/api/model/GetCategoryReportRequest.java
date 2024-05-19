@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record GetCategoryReportRequest(
-    @Min(0) long categoryId,
-    @NotNull LocalDateTime dateFrom,
-    @NotNull LocalDateTime dateTo
+        @Min(0) long categoryId,
+        @NotNull LocalDateTime dateFrom,
+        @NotNull LocalDateTime dateTo
 ) {
 }
