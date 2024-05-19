@@ -51,7 +51,7 @@ public class CategoryRepositoryTest extends IntegrationEnvironment {
     @Test
     @Transactional
     @Rollback
-    public void assertThatDeleteCategoryWorksCorrectly() {
+    void assertThatDeleteCategoryWorksCorrectly() {
         Category category = new Category()
             .setCategoryName("Test Category");
         category = categoryRepository.save(category);
@@ -64,7 +64,7 @@ public class CategoryRepositoryTest extends IntegrationEnvironment {
     @Test
     @Transactional
     @Rollback
-    public void assertThatFindAllCategoriesWorksCorrectly() {
+    void assertThatFindAllCategoriesWorksCorrectly() {
         // Create multiple categories
         Category category1 = new Category().setCategoryName("Category 1");
         Category category2 = new Category().setCategoryName("Category 2");

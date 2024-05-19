@@ -12,14 +12,14 @@ public class APIExceptionHandler {
     @ExceptionHandler(value = NotFoundEntityException.class)
     public ResponseEntity<APIErrorResponse> handleNotFoundException(NotFoundEntityException exception) {
         return ResponseEntity
-                .status(exception.getStatusCode())
-                .body(new APIErrorResponse(exception.getStatusCode(), exception));
+            .status(exception.getStatusCode())
+            .body(new APIErrorResponse(exception.getStatusCode(), exception));
     }
 
     @ExceptionHandler(value = ConflictException.class)
     public ResponseEntity<APIErrorResponse> handleConflictException(ConflictException exception) {
         return ResponseEntity
-                .status(exception.getStatusCode())
-                .body(new APIErrorResponse(exception.getStatusCode(), exception));
+            .status(exception.getStatusCode())
+            .body(new APIErrorResponse(exception.getStatusCode(), exception));
     }
 }
