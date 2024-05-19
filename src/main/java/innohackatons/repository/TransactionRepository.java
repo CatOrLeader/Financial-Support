@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-    @Query("SELECT t FROM Transaction t WHERE t.user.id = :userId AND t.category.categoryId = :categoryId "
+    @Query("SELECT t FROM Transaction t WHERE t.user.id = :userId AND t.category.id = :categoryId "
            + "AND t.date BETWEEN :dateFrom AND :dateTo")
     List<Transaction> findTransactionsByUserIdAndCategoryIdAndDateRange(
         @Param("userId") long userId,
