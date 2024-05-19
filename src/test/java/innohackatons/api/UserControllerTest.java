@@ -3,6 +3,8 @@ package innohackatons.api;
 import innohackatons.api.model.GetAllUsersInfoResponse;
 import innohackatons.api.model.GetUserInfoResponse;
 import innohackatons.api.model.UserRegisterResponse;
+import innohackatons.configuration.kafka.KafkaConfiguration;
+import innohackatons.kafka.TransactionConsumer;
 import innohackatons.service.UserService;
 import java.util.ArrayList;
 import org.hamcrest.Matchers;
@@ -29,6 +31,10 @@ class UserControllerTest {
 
     @MockBean
     private UserService userService;
+    @MockBean
+    private KafkaConfiguration kafkaConfiguration;
+    @MockBean
+    private TransactionConsumer transactionConsumer;
 
     @Test
     void testMapping_whenGetSingleUser() {

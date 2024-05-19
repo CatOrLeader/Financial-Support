@@ -1,13 +1,16 @@
 package innohackatons.repository;
 
 import innohackatons.IntegrationEnvironment;
+import innohackatons.configuration.kafka.KafkaConfiguration;
 import innohackatons.entity.Category;
+import innohackatons.kafka.TransactionConsumer;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +21,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CategoryRepositoryTest extends IntegrationEnvironment {
     @Autowired
     private CategoryRepository categoryRepository;
+    @MockBean
+    private KafkaConfiguration kafkaConfiguration;
+    @MockBean
+    private TransactionConsumer transactionConsumer;
 
     @Test
     @Transactional

@@ -1,12 +1,15 @@
 package innohackatons.api;
 
 import innohackatons.api.model.GetCategoryReportRequest;
+import innohackatons.configuration.kafka.KafkaConfiguration;
+import innohackatons.kafka.TransactionConsumer;
 import java.time.LocalDateTime;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -20,6 +23,11 @@ class ReportControllerTest {
 
     @Autowired
     private WebTestClient webClient;
+
+    @MockBean
+    private KafkaConfiguration kafkaConfiguration;
+    @MockBean
+    private TransactionConsumer transactionConsumer;
 
     @Test
     void testMapping() {

@@ -1,4 +1,11 @@
 app:
+  kafka-config-info:
+    bootstrap-servers: 127.0.0.1:9092,127.0.0.1:9093,127.0.0.1:9094
+    updates-topic:
+      name: scrapper.updates
+      partitions: 2
+      replicas: 2
+  use-queue: false
   token: "${SECRET_TOKEN}"
 
 spring:

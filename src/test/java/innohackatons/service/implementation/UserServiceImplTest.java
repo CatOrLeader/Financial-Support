@@ -4,6 +4,8 @@ import innohackatons.IntegrationEnvironment;
 import innohackatons.api.exception.ConflictException;
 import innohackatons.api.exception.NotFoundEntityException;
 import innohackatons.api.model.GetUserInfoResponse;
+import innohackatons.configuration.kafka.KafkaConfiguration;
+import innohackatons.kafka.TransactionConsumer;
 import innohackatons.repository.DepositRepository;
 import innohackatons.repository.UserRepository;
 import innohackatons.service.UserService;
@@ -13,7 +15,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
@@ -29,6 +33,10 @@ class UserServiceImplTest extends IntegrationEnvironment {
     private UserRepository userRepository;
     @Autowired
     private DepositRepository depositRepository;
+    @MockBean
+    private KafkaConfiguration kafkaConfiguration;
+    @MockBean
+    private TransactionConsumer transactionConsumer;
 
     @Test
     @Order(1)
@@ -38,17 +46,17 @@ class UserServiceImplTest extends IntegrationEnvironment {
 
         assertThat(userService.getAllUsers().getBody().userInfoResponseList()).isEmpty();
         assertThatExceptionOfType(NotFoundEntityException.class)
-            .isThrownBy(() -> userService.getUser(1));
+                .isThrownBy(() -> userService.getUser(1));
     }
 
     @Test
     @Order(2)
     void registerUser_whenNoOneRegistered_thenOneFound() {
         ID = userService.registerUser("Artur")
-            .getBody().userId();
+                .getBody().userId();
 
         assertThat(userService.getAllUsers().getBody().userInfoResponseList()).containsExactly(new GetUserInfoResponse(
-            "Artur"));
+                "Artur"));
         assertThat(userService.getUser(ID).getBody().name()).isEqualTo("Artur");
     }
 
@@ -56,7 +64,7 @@ class UserServiceImplTest extends IntegrationEnvironment {
     @Order(3)
     void registerUser_whenAlreadyRegistered_thenConflict() {
         assertThatExceptionOfType(ConflictException.class)
-            .isThrownBy(() -> userService.registerUser("Artur"));
+                .isThrownBy(() -> userService.registerUser("Artur"));
     }
 
     @Test
@@ -66,13 +74,13 @@ class UserServiceImplTest extends IntegrationEnvironment {
 
         assertThat(userService.getAllUsers().getBody().userInfoResponseList()).isEmpty();
         assertThatExceptionOfType(NotFoundEntityException.class)
-            .isThrownBy(() -> userService.getUser(ID));
+                .isThrownBy(() -> userService.getUser(ID));
     }
 
     @Test
     @Order(4)
     void deleteUser_whenNoOneRegistered_thenNotFound() {
         assertThatExceptionOfType(NotFoundEntityException.class)
-            .isThrownBy(() -> userService.deleteUser(ID));
+                .isThrownBy(() -> userService.deleteUser(ID));
     }
 }

@@ -1,9 +1,11 @@
 package innohackatons.service.implementation;
 
+import innohackatons.configuration.kafka.KafkaConfiguration;
 import innohackatons.entity.Bank;
 import innohackatons.entity.Category;
 import innohackatons.entity.Transaction;
 import innohackatons.entity.User;
+import innohackatons.kafka.TransactionConsumer;
 import innohackatons.repository.CashbackRepository;
 import innohackatons.repository.CategoryRepository;
 import innohackatons.repository.DepositRepository;
@@ -53,6 +55,11 @@ class ReportServiceImplTest {
     private User user;
     private Bank bank1;
     private Bank bank2;
+
+    @MockBean
+    private KafkaConfiguration kafkaConfiguration;
+    @MockBean
+    private TransactionConsumer transactionConsumer;
 
     @BeforeEach
     public void setUp() {

@@ -6,6 +6,8 @@ import innohackatons.api.model.GetAllPiggyBanksByUserResponse;
 import innohackatons.api.model.GetPiggyBankInfoResponse;
 import innohackatons.api.model.InternalPiggyBankResponse;
 import innohackatons.api.model.PostInternalPiggyBankRequest;
+import innohackatons.configuration.kafka.KafkaConfiguration;
+import innohackatons.kafka.TransactionConsumer;
 import innohackatons.service.PiggyBankService;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,11 @@ class PiggyBankControllerTest {
 
     @MockBean
     private PiggyBankService piggyBankService;
+
+    @MockBean
+    private KafkaConfiguration kafkaConfiguration;
+    @MockBean
+    private TransactionConsumer transactionConsumer;
 
     @Test
     void testMapping_whenAddMoneyToPiggyBank() {

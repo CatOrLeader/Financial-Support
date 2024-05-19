@@ -5,8 +5,10 @@ import innohackatons.api.exception.NotFoundEntityException;
 import innohackatons.api.model.GetAllDepositsInfoResponse;
 import innohackatons.api.model.GetDepositInfoResponse;
 import innohackatons.api.model.PostNewDepositResponse;
+import innohackatons.configuration.kafka.KafkaConfiguration;
 import innohackatons.entity.Bank;
 import innohackatons.entity.User;
+import innohackatons.kafka.TransactionConsumer;
 import innohackatons.repository.BankRepository;
 import innohackatons.repository.UserRepository;
 import innohackatons.service.DepositService;
@@ -16,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,6 +41,10 @@ class DepositServiceImplTest extends IntegrationEnvironment {
 
     @Autowired
     private BankRepository bankRepository;
+    @MockBean
+    private KafkaConfiguration kafkaConfiguration;
+    @MockBean
+    private TransactionConsumer transactionConsumer;
 
     @Test
     @Order(1)
@@ -82,27 +89,27 @@ class DepositServiceImplTest extends IntegrationEnvironment {
     @Order(4)
     void createDeposit_whenUserNotExist_thenThrowNotFoundEntityException() {
         assertThatExceptionOfType(NotFoundEntityException.class)
-            .isThrownBy(() -> depositService.createNewDeposit(999L, bankId));
+                .isThrownBy(() -> depositService.createNewDeposit(999L, bankId));
     }
 
     @Test
     @Order(5)
     void createDeposit_whenBankNotExist_thenThrowNotFoundEntityException() {
         assertThatExceptionOfType(NotFoundEntityException.class)
-            .isThrownBy(() -> depositService.createNewDeposit(userId, 999L));
+                .isThrownBy(() -> depositService.createNewDeposit(userId, 999L));
     }
 
     @Test
     @Order(6)
     void getDeposit_whenDepositNotExist_thenThrowNotFoundEntityException() {
         assertThatExceptionOfType(NotFoundEntityException.class)
-            .isThrownBy(() -> depositService.getDeposit(999L));
+                .isThrownBy(() -> depositService.getDeposit(999L));
     }
 
     @Test
     @Order(7)
     void getAllDepositsByUserId_whenUserNotExist_thenThrowNotFoundEntityException() {
         assertThatExceptionOfType(NotFoundEntityException.class)
-            .isThrownBy(() -> depositService.getAllDepositsByUserId(999L));
+                .isThrownBy(() -> depositService.getAllDepositsByUserId(999L));
     }
 }
