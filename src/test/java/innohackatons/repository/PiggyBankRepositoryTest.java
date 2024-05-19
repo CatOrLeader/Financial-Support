@@ -15,7 +15,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
 @DirtiesContext
-public class PiggyBankRepositoryTest extends IntegrationEnvironment {
+class PiggyBankRepositoryTest extends IntegrationEnvironment {
 
     @Autowired
     private PiggyBankRepository piggyBankRepository;
@@ -26,7 +26,7 @@ public class PiggyBankRepositoryTest extends IntegrationEnvironment {
     @Test
     @Transactional
     @Rollback
-    public void assertThatPiggyBankWorksCorrectly() {
+    void assertThatPiggyBankWorksCorrectly() {
         User user = new User().setName("Test User");
 
         user = userRepository.save(user);
@@ -54,7 +54,7 @@ public class PiggyBankRepositoryTest extends IntegrationEnvironment {
     @Test
     @Transactional
     @Rollback
-    public void assertThatUpdatePiggyBankWorksCorrectly() {
+    void assertThatUpdatePiggyBankWorksCorrectly() {
         User user = userRepository.save(new User().setName("Test User"));
         String goal = "Test Goal";
         BigDecimal amount = new BigDecimal("100.00");
@@ -76,7 +76,7 @@ public class PiggyBankRepositoryTest extends IntegrationEnvironment {
     @Test
     @Transactional
     @Rollback
-    public void assertThatDeletePiggyBankWorksCorrectly() {
+    void assertThatDeletePiggyBankWorksCorrectly() {
         User user = userRepository.save(new User().setName("Test User"));
         String goal = "Test Goal";
         BigDecimal amount = new BigDecimal("100.00");

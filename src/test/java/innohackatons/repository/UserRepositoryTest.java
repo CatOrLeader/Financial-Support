@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @DirtiesContext
-public class UserRepositoryTest extends IntegrationEnvironment {
+class UserRepositoryTest extends IntegrationEnvironment {
     @Autowired
     private UserRepository userRepository;
 
@@ -29,7 +29,7 @@ public class UserRepositoryTest extends IntegrationEnvironment {
     @Test
     @Transactional
     @Rollback
-    public void assertThatAddUserWorksCorrectly() {
+    void assertThatAddUserWorksCorrectly() {
         User user = new User()
             .setName("Test User");
 
@@ -41,7 +41,7 @@ public class UserRepositoryTest extends IntegrationEnvironment {
     @Test
     @Transactional
     @Rollback
-    public void assertThatRemoveWorksRight() {
+    void assertThatRemoveWorksRight() {
         assertTrue(userRepository.findAll().isEmpty());
 
         final User link = userRepository.save(new User()
@@ -54,7 +54,7 @@ public class UserRepositoryTest extends IntegrationEnvironment {
     @Test
     @Transactional
     @Rollback
-    public void assertThatFindAllWorksRight() {
+    void assertThatFindAllWorksRight() {
         final List<User> links = List.of(
             new User().setName("Test User"),
             new User().setName("Test User 2")

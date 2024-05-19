@@ -21,7 +21,7 @@ import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 @ExtendWith(SpringExtension.class)
 @WebFluxTest(controllers = TransactionController.class)
 @DirtiesContext
-public class TransactionControllerTest {
+class TransactionControllerTest {
     private static final String COMMON_AUTHORIZATION_HEADER_NAME = "Token";
     private static final String COMMON_HEADER_VALUE = "Value";
 

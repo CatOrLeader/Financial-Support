@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ExtendWith(SpringExtension.class)
 @WebFluxTest(controllers = ReportServiceImpl.class)
 @DirtiesContext
-public class ReportServiceImplTest {
+class ReportServiceImplTest {
 
     @Autowired
     private ReportService reportService;
@@ -73,7 +73,7 @@ public class ReportServiceImplTest {
     }
 
     @Test
-    public void testGenerateCategoryReport() {
+    void testGenerateCategoryReport() {
         LocalDateTime dateFrom = LocalDateTime.of(2023, 1, 1, 0, 0);
         LocalDateTime dateTo = LocalDateTime.of(2023, 1, 3, 23, 59);
 

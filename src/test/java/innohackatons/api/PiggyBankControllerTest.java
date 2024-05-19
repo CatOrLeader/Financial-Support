@@ -1,7 +1,14 @@
 package innohackatons.api;
 
-import innohackatons.api.model.*;
+import innohackatons.api.model.DeletePiggyBankRequest;
+import innohackatons.api.model.DeletePiggyBankResponse;
+import innohackatons.api.model.GetAllPiggyBanksByUserResponse;
+import innohackatons.api.model.GetPiggyBankInfoResponse;
+import innohackatons.api.model.InternalPiggyBankResponse;
+import innohackatons.api.model.PostInternalPiggyBankRequest;
 import innohackatons.service.PiggyBankService;
+import java.util.ArrayList;
+import java.util.List;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,13 +22,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @ExtendWith(SpringExtension.class)
 @WebFluxTest(controllers = PiggyBankController.class)
 @DirtiesContext
-public class PiggyBankControllerTest {
+class PiggyBankControllerTest {
     private static final String COMMON_AUTHORIZATION_HEADER_NAME = "Token";
     private static final String COMMON_HEADER_VALUE = "Value";
 

@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @DirtiesContext
-public class CashbackRepositoryTest extends IntegrationEnvironment {
+class CashbackRepositoryTest extends IntegrationEnvironment {
 
     @Autowired
     private CashbackRepository cashbackRepository;
@@ -32,7 +32,7 @@ public class CashbackRepositoryTest extends IntegrationEnvironment {
     @Test
     @Transactional
     @Rollback
-    public void assertThatAddCashbackWorksCorrectly() {
+    void assertThatAddCashbackWorksCorrectly() {
         User user = userRepository.save(new User().setName("Test User"));
         Bank bank = bankRepository.findById(1L).orElse(null);
         Category category = categoryRepository.save(new Category().setId(1L).setCategoryName("hackatons"));

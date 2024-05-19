@@ -15,14 +15,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @DirtiesContext
-public class CategoryRepositoryTest extends IntegrationEnvironment {
+class CategoryRepositoryTest extends IntegrationEnvironment {
     @Autowired
     private CategoryRepository categoryRepository;
 
     @Test
     @Transactional
     @Rollback
-    public void assertThatAddCategoryWorksCorrectly() {
+    void assertThatAddCategoryWorksCorrectly() {
         Category category = new Category()
             .setCategoryName("Test Category");
 
@@ -34,7 +34,7 @@ public class CategoryRepositoryTest extends IntegrationEnvironment {
     @Test
     @Transactional
     @Rollback
-    public void assertThatUpdateCategoryWorksCorrectly() {
+    void assertThatUpdateCategoryWorksCorrectly() {
         Category category = new Category()
             .setCategoryName("Test Category");
         category = categoryRepository.save(category);

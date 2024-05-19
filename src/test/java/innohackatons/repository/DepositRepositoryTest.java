@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @DirtiesContext
-public class DepositRepositoryTest extends IntegrationEnvironment {
+class DepositRepositoryTest extends IntegrationEnvironment {
     @Autowired
     private DepositRepository depositRepository;
 
@@ -29,7 +29,7 @@ public class DepositRepositoryTest extends IntegrationEnvironment {
     @Test
     @Transactional
     @Rollback
-    public void assertThatAddDepositWorksCorrectly() {
+    void assertThatAddDepositWorksCorrectly() {
         User user = userRepository.save(new User().setName("Test User"));
         Bank bank = bankRepository.findById(1L).orElse(null);
         Deposit deposit = new Deposit()
@@ -45,7 +45,7 @@ public class DepositRepositoryTest extends IntegrationEnvironment {
     @Test
     @Transactional
     @Rollback
-    public void assertThatUpdateDepositWorksCorrectly() {
+    void assertThatUpdateDepositWorksCorrectly() {
         User user = userRepository.save(new User().setName("Test User"));
         Bank bank = bankRepository.findById(1L).orElse(null);
         Deposit deposit = new Deposit()
@@ -66,7 +66,7 @@ public class DepositRepositoryTest extends IntegrationEnvironment {
     @Test
     @Transactional
     @Rollback
-    public void assertThatDeleteDepositWorksCorrectly() {
+    void assertThatDeleteDepositWorksCorrectly() {
         User user = userRepository.save(new User().setName("Test User"));
         Bank bank = bankRepository.findById(1L).orElse(null);
         Deposit deposit = new Deposit()

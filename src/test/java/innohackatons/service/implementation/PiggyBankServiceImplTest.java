@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 @SpringBootTest
 @DirtiesContext
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class PiggyBankServiceImplTest extends IntegrationEnvironment {
+class PiggyBankServiceImplTest extends IntegrationEnvironment {
 
     private static long userId;
     private static long depositId;
@@ -65,7 +65,7 @@ public class PiggyBankServiceImplTest extends IntegrationEnvironment {
         piggyBankId = response.piggyBankId();
 
         assertThat(response).isNotNull();
-        assertThat(piggyBankId).isGreaterThan(0);
+        assertThat(piggyBankId).isPositive();
     }
 
     @Test
@@ -111,7 +111,7 @@ public class PiggyBankServiceImplTest extends IntegrationEnvironment {
 
         assertThat(response).isNotNull();
         assertThat(response.totalMoney()).isEqualTo(1000);
-        assertThat(depositRepository.findById(depositId).get().getAmount().doubleValue()).isEqualTo(0);
+        assertThat(depositRepository.findById(depositId).get().getAmount().doubleValue()).isZero();
     }
 
     @Test

@@ -38,7 +38,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 @SpringBootTest
 @DirtiesContext
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class TransactionServiceImplTest extends IntegrationEnvironment {
+class TransactionServiceImplTest extends IntegrationEnvironment {
 
     @Autowired
     private TransactionService transactionService;

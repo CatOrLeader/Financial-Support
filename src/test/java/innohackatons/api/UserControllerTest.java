@@ -20,7 +20,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 @ExtendWith(SpringExtension.class)
 @WebFluxTest(controllers = UserController.class)
 @DirtiesContext
-public class UserControllerTest {
+class UserControllerTest {
     private static final String COMMON_AUTHORIZATION_HEADER_NAME = "Token";
     private static final String COMMON_HEADER_VALUE = "Value";
 

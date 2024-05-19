@@ -21,7 +21,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 @ExtendWith(SpringExtension.class)
 @WebFluxTest(controllers = DepositController.class)
 @DirtiesContext
-public class DepositControllerTest {
+class DepositControllerTest {
     private static final String COMMON_AUTHORIZATION_HEADER_NAME = "Token";
     private static final String COMMON_HEADER_VALUE = "Value";
 

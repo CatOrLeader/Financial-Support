@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 @SpringBootTest
 @DirtiesContext
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class DepositServiceImplTest extends IntegrationEnvironment {
+class DepositServiceImplTest extends IntegrationEnvironment {
 
     private static long userId;
     private static long bankId;
@@ -54,7 +54,7 @@ public class DepositServiceImplTest extends IntegrationEnvironment {
         depositId = response.id();
 
         assertThat(response).isNotNull();
-        assertThat(depositId).isGreaterThan(0);
+        assertThat(depositId).isPositive();
     }
 
     @Test
