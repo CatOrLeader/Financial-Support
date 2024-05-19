@@ -25,6 +25,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
@@ -92,7 +93,7 @@ class TransactionServiceImplTest extends IntegrationEnvironment {
         deposit.setAmount(BigDecimal.valueOf(100));
         ResponseEntity<TransactionResponse> response = transactionService.processTransaction(request);
 
-        assertThat(response.getStatusCodeValue()).isEqualTo(200);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().proceededDate()).isNotNull();
 
