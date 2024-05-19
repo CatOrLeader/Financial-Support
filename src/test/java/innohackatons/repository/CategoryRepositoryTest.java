@@ -15,26 +15,26 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @DirtiesContext
-public class CategoryRepositoryTest extends IntegrationEnvironment {
+class CategoryRepositoryTest extends IntegrationEnvironment {
     @Autowired
     private CategoryRepository categoryRepository;
 
     @Test
     @Transactional
     @Rollback
-    public void assertThatAddCategoryWorksCorrectly() {
+    void assertThatAddCategoryWorksCorrectly() {
         Category category = new Category()
             .setCategoryName("Test Category");
 
         category = categoryRepository.save(category);
 
-        assertThat(categoryRepository.findById(category.getCategoryId())).isPresent();
+        assertThat(categoryRepository.findById(category.getId())).isPresent();
     }
 
     @Test
     @Transactional
     @Rollback
-    public void assertThatUpdateCategoryWorksCorrectly() {
+    void assertThatUpdateCategoryWorksCorrectly() {
         Category category = new Category()
             .setCategoryName("Test Category");
         category = categoryRepository.save(category);
@@ -43,7 +43,7 @@ public class CategoryRepositoryTest extends IntegrationEnvironment {
         category.setCategoryName(updatedName);
         categoryRepository.save(category);
 
-        Optional<Category> updatedCategoryOptional = categoryRepository.findById(category.getCategoryId());
+        Optional<Category> updatedCategoryOptional = categoryRepository.findById(category.getId());
         assertThat(updatedCategoryOptional).isPresent();
         assertThat(updatedCategoryOptional.get().getCategoryName()).isEqualTo(updatedName);
     }
@@ -58,7 +58,7 @@ public class CategoryRepositoryTest extends IntegrationEnvironment {
 
         categoryRepository.delete(category);
 
-        assertThat(categoryRepository.findById(category.getCategoryId())).isEmpty();
+        assertThat(categoryRepository.findById(category.getId())).isEmpty();
     }
 
     @Test

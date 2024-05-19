@@ -3,6 +3,7 @@ package innohackatons.repository;
 import innohackatons.IntegrationEnvironment;
 import innohackatons.entity.User;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,14 +16,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @DirtiesContext
-public class UserRepositoryTest extends IntegrationEnvironment {
+class UserRepositoryTest extends IntegrationEnvironment {
     @Autowired
     private UserRepository userRepository;
+
+
+    @BeforeEach
+    public void setUp() {
+        userRepository.deleteAll();
+    }
 
     @Test
     @Transactional
     @Rollback
-    public void assertThatAddUserWorksCorrectly() {
+    void assertThatAddUserWorksCorrectly() {
         User user = new User()
             .setName("Test User");
 
@@ -34,7 +41,7 @@ public class UserRepositoryTest extends IntegrationEnvironment {
     @Test
     @Transactional
     @Rollback
-    public void assertThatRemoveWorksRight() {
+    void assertThatRemoveWorksRight() {
         assertTrue(userRepository.findAll().isEmpty());
 
         final User link = userRepository.save(new User()
@@ -47,7 +54,7 @@ public class UserRepositoryTest extends IntegrationEnvironment {
     @Test
     @Transactional
     @Rollback
-    public void assertThatFindAllWorksRight() {
+    void assertThatFindAllWorksRight() {
         final List<User> links = List.of(
             new User().setName("Test User"),
             new User().setName("Test User 2")

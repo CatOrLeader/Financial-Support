@@ -78,8 +78,11 @@ public class PiggyBankServiceImpl implements PiggyBankService {
             throw new ConflictException("There is no such money on the deposit");
         }
 
-        deposit.setAmount(deposit.getAmount().min(BigDecimal.valueOf(request.amount())));
+        deposit.setAmount(deposit.getAmount().subtract(BigDecimal.valueOf(request.amount())));
         pBank.setAmount(pBank.getAmount().add(BigDecimal.valueOf(request.amount())));
+
+        piggyBankRepository.save(pBank);
+        depositRepository.save(deposit);
 
         return ResponseEntity.ok(
             new InternalPiggyBankResponse(pBank.getAmount().doubleValue())
@@ -103,7 +106,10 @@ public class PiggyBankServiceImpl implements PiggyBankService {
         }
 
         deposit.setAmount(deposit.getAmount().add(BigDecimal.valueOf(request.amount())));
-        pBank.setAmount(pBank.getAmount().min(BigDecimal.valueOf(request.amount())));
+        pBank.setAmount(pBank.getAmount().subtract(BigDecimal.valueOf(request.amount())));
+
+        piggyBankRepository.save(pBank);
+        depositRepository.save(deposit);
 
         return ResponseEntity.ok(
             new InternalPiggyBankResponse(pBank.getAmount().doubleValue())

@@ -11,14 +11,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @DirtiesContext
-public class BankRepositoryTest extends IntegrationEnvironment {
+class BankRepositoryTest extends IntegrationEnvironment {
     @Autowired
     private BankRepository bankRepository;
 
     @Test
     @Transactional
     @Rollback
-    public void assertThatAddBankWorksCorrectly() {
+    void assertThatAddBankWorksCorrectly() {
 
         assertThat(bankRepository.findById(1L)).isPresent();
     }

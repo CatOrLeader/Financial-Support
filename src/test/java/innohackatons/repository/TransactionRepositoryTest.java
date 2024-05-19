@@ -11,12 +11,14 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-public class TransactionRepositoryTest extends IntegrationEnvironment {
+@DirtiesContext
+class TransactionRepositoryTest extends IntegrationEnvironment {
     @Autowired
     private TransactionRepository transactionRepository;
 
@@ -32,7 +34,7 @@ public class TransactionRepositoryTest extends IntegrationEnvironment {
     @Test
     @Transactional
     @Rollback
-    public void assertThatSaveTransactionWorksCorrectly() {
+    void assertThatSaveTransactionWorksCorrectly() {
         User user = userRepository.save(new User().setName("Test User"));
         Bank bank = bankRepository.findById(1L).orElse(null);
         Category category = categoryRepository.save(new Category().setCategoryName("Test Category"));
@@ -52,7 +54,7 @@ public class TransactionRepositoryTest extends IntegrationEnvironment {
     @Test
     @Transactional
     @Rollback
-    public void assertThatUpdateTransactionWorksCorrectly() {
+    void assertThatUpdateTransactionWorksCorrectly() {
         User user = userRepository.save(new User().setName("Test User"));
         Bank bank = bankRepository.findById(1L).orElse(null);
         Category category = categoryRepository.save(new Category().setCategoryName("Test Category"));
@@ -77,7 +79,7 @@ public class TransactionRepositoryTest extends IntegrationEnvironment {
     @Test
     @Transactional
     @Rollback
-    public void assertThatDeleteTransactionWorksCorrectly() {
+    void assertThatDeleteTransactionWorksCorrectly() {
         User user = userRepository.save(new User().setName("Test User"));
         Bank bank = bankRepository.findById(1L).orElse(null);
         Category category = categoryRepository.save(new Category().setCategoryName("Test Category"));

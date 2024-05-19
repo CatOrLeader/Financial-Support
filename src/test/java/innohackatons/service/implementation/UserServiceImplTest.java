@@ -4,6 +4,8 @@ import innohackatons.IntegrationEnvironment;
 import innohackatons.api.exception.ConflictException;
 import innohackatons.api.exception.NotFoundEntityException;
 import innohackatons.api.model.GetUserInfoResponse;
+import innohackatons.repository.DepositRepository;
+import innohackatons.repository.UserRepository;
 import innohackatons.service.UserService;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -18,15 +20,22 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 @SpringBootTest
 @DirtiesContext
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class UserServiceImplTest extends IntegrationEnvironment {
+class UserServiceImplTest extends IntegrationEnvironment {
     private static long ID;
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private DepositRepository depositRepository;
 
     @Test
     @Order(1)
     void getUser_whenNothingRegistered_thenZeroFound() {
+        depositRepository.deleteAll();
+        userRepository.deleteAll();
+
         assertThat(userService.getAllUsers().getBody().userInfoResponseList()).isEmpty();
         assertThatExceptionOfType(NotFoundEntityException.class)
             .isThrownBy(() -> userService.getUser(1));

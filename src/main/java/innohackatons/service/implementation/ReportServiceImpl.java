@@ -26,7 +26,7 @@ public class ReportServiceImpl implements ReportService {
         for (Transaction transaction : transactions) {
             if ((transaction.getDate().isAfter(dateFrom) && transaction.getDate().isBefore(dateTo))
                 || transaction.getDate().equals(dateFrom) || transaction.getDate().equals(dateTo)) {
-                if (Objects.equals(transaction.getCategory().getCategoryId(), categoryId)
+                if (Objects.equals(transaction.getCategory().getId(), categoryId)
                     && transaction.getUser().getId().equals(userId)) {
                     filteredTransactions.add(transaction);
                 }
