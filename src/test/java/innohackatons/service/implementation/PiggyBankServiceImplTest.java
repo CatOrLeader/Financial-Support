@@ -3,15 +3,11 @@ package innohackatons.service.implementation;
 import innohackatons.IntegrationEnvironment;
 import innohackatons.api.exception.ConflictException;
 import innohackatons.api.exception.NotFoundEntityException;
-import innohackatons.api.model.DeletePiggyBankRequest;
-import innohackatons.api.model.DeletePiggyBankResponse;
-import innohackatons.api.model.GetAllPiggyBanksByUserResponse;
-import innohackatons.api.model.GetPiggyBankInfoResponse;
-import innohackatons.api.model.InternalPiggyBankResponse;
-import innohackatons.api.model.PostInternalPiggyBankRequest;
-import innohackatons.api.model.PostNewPiggyBankResponse;
+import innohackatons.api.model.*;
+import innohackatons.configuration.kafka.KafkaConfiguration;
 import innohackatons.entity.Deposit;
 import innohackatons.entity.User;
+import innohackatons.kafka.TransactionConsumer;
 import innohackatons.repository.BankRepository;
 import innohackatons.repository.DepositRepository;
 import innohackatons.repository.PiggyBankRepository;
@@ -23,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.math.BigDecimal;
@@ -53,6 +50,10 @@ class PiggyBankServiceImplTest extends IntegrationEnvironment {
 
     @Autowired
     private PiggyBankRepository piggyBankRepository;
+    @MockBean
+    private KafkaConfiguration kafkaConfiguration;
+    @MockBean
+    private TransactionConsumer transactionConsumer;
 
     @Test
     @Order(1)
@@ -82,7 +83,7 @@ class PiggyBankServiceImplTest extends IntegrationEnvironment {
     @Order(3)
     void createPiggyBank_whenPiggyBankAlreadyExists_thenThrowConflictException() {
         assertThatExceptionOfType(ConflictException.class)
-            .isThrownBy(() -> piggyBankService.createPiggyBank(userId, "NewGoal"));
+                .isThrownBy(() -> piggyBankService.createPiggyBank(userId, "NewGoal"));
     }
 
 
@@ -142,7 +143,7 @@ class PiggyBankServiceImplTest extends IntegrationEnvironment {
     @Order(8)
     void createPiggyBank_whenUserNotExist_thenThrowNotFoundEntityException() {
         assertThatExceptionOfType(NotFoundEntityException.class)
-            .isThrownBy(() -> piggyBankService.createPiggyBank(999L, "NonExistentGoal"));
+                .isThrownBy(() -> piggyBankService.createPiggyBank(999L, "NonExistentGoal"));
     }
 
 
@@ -152,7 +153,7 @@ class PiggyBankServiceImplTest extends IntegrationEnvironment {
         PostInternalPiggyBankRequest request = new PostInternalPiggyBankRequest("NewGoal", 100, 99L);
 
         assertThatExceptionOfType(NotFoundEntityException.class)
-            .isThrownBy(() -> piggyBankService.internalAddTransactionProcess(userId, request));
+                .isThrownBy(() -> piggyBankService.internalAddTransactionProcess(userId, request));
     }
 
     @Test
@@ -161,15 +162,15 @@ class PiggyBankServiceImplTest extends IntegrationEnvironment {
         PostInternalPiggyBankRequest request = new PostInternalPiggyBankRequest("NonExistingGoal", 100, 99L);
 
         assertThatExceptionOfType(NotFoundEntityException.class)
-            .isThrownBy(() -> piggyBankService.internalRetrieveTransactionProcess(userId, request));
+                .isThrownBy(() -> piggyBankService.internalRetrieveTransactionProcess(userId, request));
     }
 
     @Test
     @Order(11)
     void deletePiggyBank_whenPiggyBankNotExist_thenThrowNotFoundEntityException() {
-        DeletePiggyBankRequest request = new DeletePiggyBankRequest( "NonExistentGoal", 99L);
+        DeletePiggyBankRequest request = new DeletePiggyBankRequest("NonExistentGoal", 99L);
 
         assertThatExceptionOfType(NotFoundEntityException.class)
-            .isThrownBy(() -> piggyBankService.deletePiggyBank(userId, request));
+                .isThrownBy(() -> piggyBankService.deletePiggyBank(userId, request));
     }
 }

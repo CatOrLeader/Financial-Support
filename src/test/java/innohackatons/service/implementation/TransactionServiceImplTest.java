@@ -5,22 +5,12 @@ import innohackatons.api.exception.ConflictException;
 import innohackatons.api.exception.NotFoundEntityException;
 import innohackatons.api.model.PostTransactionRequest;
 import innohackatons.api.model.TransactionResponse;
-import innohackatons.entity.Bank;
-import innohackatons.entity.Category;
-import innohackatons.entity.Deposit;
-import innohackatons.entity.Transaction;
-import innohackatons.entity.User;
-import innohackatons.repository.BankRepository;
-import innohackatons.repository.CategoryRepository;
-import innohackatons.repository.DepositRepository;
-import innohackatons.repository.TransactionRepository;
-import innohackatons.repository.UserRepository;
+import innohackatons.configuration.kafka.KafkaConfiguration;
+import innohackatons.entity.*;
+import innohackatons.kafka.TransactionConsumer;
+import innohackatons.repository.*;
 import innohackatons.service.TransactionService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -58,7 +48,10 @@ class TransactionServiceImplTest extends IntegrationEnvironment {
 
     @MockBean
     private TransactionRepository transactionRepository;
-
+    @MockBean
+    private KafkaConfiguration kafkaConfiguration;
+    @MockBean
+    private TransactionConsumer transactionConsumer;
     private User user;
     private Bank bank;
     private Category category;
@@ -109,8 +102,8 @@ class TransactionServiceImplTest extends IntegrationEnvironment {
         Mockito.when(userRepository.findById(request.userId())).thenReturn(Optional.empty());
 
         assertThatExceptionOfType(NotFoundEntityException.class)
-            .isThrownBy(() -> transactionService.processTransaction(request))
-            .withMessage("User not found");
+                .isThrownBy(() -> transactionService.processTransaction(request))
+                .withMessage("User not found");
     }
 
     @Test
@@ -122,8 +115,8 @@ class TransactionServiceImplTest extends IntegrationEnvironment {
         Mockito.when(bankRepository.findById(request.bankId())).thenReturn(Optional.empty());
 
         assertThatExceptionOfType(NotFoundEntityException.class)
-            .isThrownBy(() -> transactionService.processTransaction(request))
-            .withMessage("Bank not found");
+                .isThrownBy(() -> transactionService.processTransaction(request))
+                .withMessage("Bank not found");
     }
 
     @Test
@@ -136,8 +129,8 @@ class TransactionServiceImplTest extends IntegrationEnvironment {
         Mockito.when(categoryRepository.findById(request.categoryId())).thenReturn(Optional.empty());
 
         assertThatExceptionOfType(NotFoundEntityException.class)
-            .isThrownBy(() -> transactionService.processTransaction(request))
-            .withMessage("Category not found");
+                .isThrownBy(() -> transactionService.processTransaction(request))
+                .withMessage("Category not found");
     }
 
     @Test
@@ -151,8 +144,8 @@ class TransactionServiceImplTest extends IntegrationEnvironment {
         Mockito.when(depositRepository.findByUserIdAndBankId(user.getId(), bank.getId())).thenReturn(Optional.empty());
 
         assertThatExceptionOfType(NotFoundEntityException.class)
-            .isThrownBy(() -> transactionService.processTransaction(request))
-            .withMessage("Deposit not found");
+                .isThrownBy(() -> transactionService.processTransaction(request))
+                .withMessage("Deposit not found");
     }
 
     @Test
@@ -166,7 +159,7 @@ class TransactionServiceImplTest extends IntegrationEnvironment {
         Mockito.when(depositRepository.findByUserIdAndBankId(user.getId(), bank.getId())).thenReturn(Optional.of(deposit));
 
         assertThatExceptionOfType(ConflictException.class)
-            .isThrownBy(() -> transactionService.processTransaction(request))
-            .withMessage("Insufficient funds");
+                .isThrownBy(() -> transactionService.processTransaction(request))
+                .withMessage("Insufficient funds");
     }
 }

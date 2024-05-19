@@ -1,16 +1,19 @@
 package innohackatons.repository;
 
 import innohackatons.IntegrationEnvironment;
+import innohackatons.configuration.kafka.KafkaConfiguration;
 import innohackatons.entity.Bank;
 import innohackatons.entity.Category;
 import innohackatons.entity.Transaction;
 import innohackatons.entity.User;
+import innohackatons.kafka.TransactionConsumer;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +33,10 @@ class TransactionRepositoryTest extends IntegrationEnvironment {
 
     @Autowired
     private CategoryRepository categoryRepository;
+    @MockBean
+    private KafkaConfiguration kafkaConfiguration;
+    @MockBean
+    private TransactionConsumer transactionConsumer;
 
     @Test
     @Transactional

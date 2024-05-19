@@ -2,6 +2,8 @@ package innohackatons.api;
 
 import innohackatons.api.model.PostTransactionRequest;
 import innohackatons.api.model.TransactionResponse;
+import innohackatons.configuration.kafka.KafkaConfiguration;
+import innohackatons.kafka.TransactionConsumer;
 import innohackatons.service.TransactionService;
 import java.time.LocalDateTime;
 import org.hamcrest.Matchers;
@@ -30,6 +32,11 @@ class TransactionControllerTest {
 
     @MockBean
     private TransactionService service;
+
+    @MockBean
+    private KafkaConfiguration kafkaConfiguration;
+    @MockBean
+    private TransactionConsumer transactionConsumer;
 
     @Test
     void testMapping() {

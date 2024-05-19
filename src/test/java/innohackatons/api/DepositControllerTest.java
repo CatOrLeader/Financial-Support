@@ -3,6 +3,8 @@ package innohackatons.api;
 import innohackatons.api.model.GetAllDepositsInfoResponse;
 import innohackatons.api.model.GetDepositInfoResponse;
 import innohackatons.api.model.PostNewDepositResponse;
+import innohackatons.configuration.kafka.KafkaConfiguration;
+import innohackatons.kafka.TransactionConsumer;
 import innohackatons.service.DepositService;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,10 @@ class DepositControllerTest {
 
     @MockBean
     private DepositService depositService;
+    @MockBean
+    private KafkaConfiguration kafkaConfiguration;
+    @MockBean
+    private TransactionConsumer transactionConsumer;
 
     @Test
     void testMapping_whenGetDepositById() {

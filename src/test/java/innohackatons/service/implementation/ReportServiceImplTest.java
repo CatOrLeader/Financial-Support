@@ -1,9 +1,11 @@
 package innohackatons.service.implementation;
 
+import innohackatons.configuration.kafka.KafkaConfiguration;
 import innohackatons.entity.Bank;
 import innohackatons.entity.Category;
 import innohackatons.entity.Transaction;
 import innohackatons.entity.User;
+import innohackatons.kafka.TransactionConsumer;
 import innohackatons.service.ReportService;
 import innohackatons.service.dto.CategoryReportDTO;
 import java.math.BigDecimal;
@@ -15,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,6 +35,11 @@ class ReportServiceImplTest {
     private User user;
     private Bank bank1;
     private Bank bank2;
+
+    @MockBean
+    private KafkaConfiguration kafkaConfiguration;
+    @MockBean
+    private TransactionConsumer transactionConsumer;
 
     @BeforeEach
     public void setUp() {
