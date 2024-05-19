@@ -1,14 +1,19 @@
 package innohackatons.service.implementation;
 
+import innohackatons.api.exception.NotFoundEntityException;
 import innohackatons.api.model.GetCategoryReportRequest;
 import innohackatons.api.model.GetCategoryReportResponse;
 import innohackatons.entity.Bank;
 import innohackatons.entity.Cashback;
+import innohackatons.entity.Category;
 import innohackatons.entity.Deposit;
 import innohackatons.entity.Transaction;
+import innohackatons.entity.User;
 import innohackatons.repository.CashbackRepository;
+import innohackatons.repository.CategoryRepository;
 import innohackatons.repository.DepositRepository;
 import innohackatons.repository.TransactionRepository;
+import innohackatons.repository.UserRepository;
 import innohackatons.service.ReportService;
 import innohackatons.service.dto.CategoryReportDTO;
 import java.math.BigDecimal;
@@ -25,13 +30,20 @@ public class ReportServiceImpl implements ReportService {
     private final TransactionRepository transactionRepository;
     private final CashbackRepository cashbackRepository;
     private final DepositRepository depositRepository;
+    private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public ResponseEntity<GetCategoryReportResponse> generateCategoryReport(
         long userId, GetCategoryReportRequest request) {
+        User user = userRepository.findById(userId)
+                        .orElseThrow(() -> new NotFoundEntityException("User not found"));
+        Category category = categoryRepository.findById(request.categoryId())
+                                .orElseThrow(() -> new NotFoundEntityException("Category not found"));
+
         List<Transaction> filteredTransactions = transactionRepository
             .findTransactionsByUserIdAndCategoryIdAndDateRange(
-            userId, request.categoryId(), request.dateFrom(), request.dateTo());
+            user.getId(), category.getCategoryId(), request.dateFrom(), request.dateTo());
 
         HashSet<Deposit> deposits = new HashSet<>();
 
