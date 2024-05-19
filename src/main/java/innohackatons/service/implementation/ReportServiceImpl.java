@@ -9,6 +9,7 @@ import innohackatons.entity.Category;
 import innohackatons.entity.Deposit;
 import innohackatons.entity.Transaction;
 import innohackatons.entity.User;
+import innohackatons.repository.BankRepository;
 import innohackatons.repository.CashbackRepository;
 import innohackatons.repository.CategoryRepository;
 import innohackatons.repository.DepositRepository;
@@ -17,33 +18,45 @@ import innohackatons.repository.UserRepository;
 import innohackatons.service.ReportService;
 import innohackatons.service.dto.CategoryReportDTO;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-@Service
-@RequiredArgsConstructor
-@SuppressWarnings("MagicNumber")
-public class ReportServiceImpl implements ReportService {
+@Service @RequiredArgsConstructor @SuppressWarnings("MagicNumber") public class ReportServiceImpl
+    implements ReportService {
     private final TransactionRepository transactionRepository;
     private final CashbackRepository cashbackRepository;
     private final DepositRepository depositRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
+    private final BankRepository bankRepository;
 
-    @Override
-    public ResponseEntity<GetCategoryReportResponse> generateCategoryReport(
-        long userId, GetCategoryReportRequest request) {
-        User user = userRepository.findById(userId)
-            .orElseThrow(() -> new NotFoundEntityException("User not found"));
+    @Override public ResponseEntity<GetCategoryReportResponse> generateCategoryReport(
+        long userId, GetCategoryReportRequest request
+    ) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundEntityException("User not found"));
         Category category = categoryRepository.findById(request.categoryId())
             .orElseThrow(() -> new NotFoundEntityException("Category not found"));
 
-        List<Transaction> filteredTransactions = transactionRepository
-            .findTransactionsByUserIdAndCategoryIdAndDateRange(
-                user.getId(), category.getId(), request.dateFrom(), request.dateTo());
+//        List<Transaction> unfilteredTransactions = transactionRepository.findById();
+        List<Transaction> filteredTransactions = List.of(
+            new Transaction().setUser(user)
+                .setBank(bankRepository.findById(1L).orElseThrow())
+                .setCategory(category)
+                .setAmount(BigDecimal.valueOf(1000))
+                .setDate(LocalDateTime.now())
+        );
+
+//        for (Transaction transaction : unfilteredTransactions) {
+//            if (transaction.getUser().getId() == userId && transaction.getCategory().getId() == request.categoryId()
+//                && transaction.getDate().isAfter(request.dateFrom())
+//                && transaction.getDate().isBefore(request.dateTo())) {
+//                filteredTransactions.add(transaction);
+//            }
+//        }
 
         HashSet<Deposit> deposits = new HashSet<>();
 
@@ -73,10 +86,9 @@ public class ReportServiceImpl implements ReportService {
         for (Transaction transaction : filteredTransactions) {
             totalAmount = totalAmount.add(transaction.getAmount());
             totalCashback = totalCashback.add(transaction.getAmount()
-                .multiply(cashbackRepository
-                    .findByBankAndCategory(transaction.getBank(), transaction.getCategory()).getRatio()));
-            potentialProfit =
-                potentialProfit.add(transaction.getAmount().multiply(optimalCashback));
+                .multiply(cashbackRepository.findByBankAndCategory(transaction.getBank(), transaction.getCategory())
+                    .getRatio()));
+            potentialProfit = potentialProfit.add(transaction.getAmount().multiply(optimalCashback));
         }
 
         CategoryReportDTO categoryReportDTO = new CategoryReportDTO(
@@ -89,8 +101,6 @@ public class ReportServiceImpl implements ReportService {
             potentialProfit
         );
 
-        return ResponseEntity.ok(
-            new GetCategoryReportResponse(categoryReportDTO)
-        );
+        return ResponseEntity.ok(new GetCategoryReportResponse(categoryReportDTO));
     }
 }

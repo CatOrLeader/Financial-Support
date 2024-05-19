@@ -4,6 +4,7 @@ import innohackatons.entity.Bank;
 import innohackatons.entity.Category;
 import innohackatons.entity.Transaction;
 import innohackatons.entity.User;
+import innohackatons.repository.BankRepository;
 import innohackatons.repository.CashbackRepository;
 import innohackatons.repository.CategoryRepository;
 import innohackatons.repository.DepositRepository;
@@ -32,6 +33,9 @@ class ReportServiceImplTest {
 
     @Autowired
     private ReportService reportService;
+
+    @MockBean
+    private BankRepository bankRepository;
 
     @MockBean
     private TransactionRepository transactionRepository;
@@ -100,9 +104,7 @@ class ReportServiceImplTest {
 
         Mockito.when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
         Mockito.when(categoryRepository.findById(category.getId())).thenReturn(Optional.of(category));
-        Mockito.when(transactionRepository
-                .findTransactionsByUserIdAndCategoryIdAndDateRange(user.getId(), category.getId(), dateFrom, dateTo))
-            .thenReturn(transactions);
+        Mockito.when(transactionRepository.findAll()).thenReturn(transactions);
 
 //        GetCategoryReportResponse report = reportService.generateCategoryReport(
 //            user.getId(),

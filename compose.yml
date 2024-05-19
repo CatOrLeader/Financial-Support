@@ -8,6 +8,7 @@ services:
       - backend
     volumes:
       - postgresql:/var/lib/postgresql/data
+
   liquibase:
     image: liquibase/liquibase:4.25
     depends_on:
@@ -25,8 +26,31 @@ services:
     volumes:
       - ./db/migrations:/liquibase/changelog
 
+  prometheus:
+    build:
+      context: .
+      dockerfile: prometheus.Dockerfile
+    ports:
+      - "9090:9090"
+    volumes:
+      - prometheus_data:/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana-oss
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - grafana_provisioning_data:/etc/grafana/provisioning
+
+
 volumes:
   postgresql: { }
+  prometheus_data: { }
+  grafana_data: { }
+  grafana_provisioning_data: { }
 
 networks:
   backend: { }
