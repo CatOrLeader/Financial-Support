@@ -4,6 +4,7 @@ import innohackatons.api.exception.ConflictException;
 import innohackatons.api.exception.NotFoundEntityException;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+import java.util.Objects;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class APIExceptionHandlerTest {
@@ -14,7 +15,7 @@ public class APIExceptionHandlerTest {
         var response = handler.handleNotFoundException(new NotFoundEntityException("Message"));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-        assertThat(response.getBody().exceptionMessage()).isEqualTo("Message");
+        assertThat(Objects.requireNonNull(response.getBody()).exceptionMessage()).isEqualTo("Message");
     }
 
     @Test
@@ -22,6 +23,6 @@ public class APIExceptionHandlerTest {
         var response = handler.handleConflictException(new ConflictException("Message"));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
-        assertThat(response.getBody().exceptionMessage()).isEqualTo("Message");
+        assertThat(Objects.requireNonNull(response.getBody()).exceptionMessage()).isEqualTo("Message");
     }
 }
