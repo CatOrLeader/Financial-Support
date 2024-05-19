@@ -44,7 +44,7 @@ class CashbackRepositoryTest extends IntegrationEnvironment {
             .setBank(bank)
             .setRatio(new BigDecimal("14.00"));
 
-        cashback = cashbackRepository.save(cashback);
+        cashbackRepository.save(cashback);
 
         assertThat(cashbackRepository.findById(cashbackId)).isPresent();
     }
